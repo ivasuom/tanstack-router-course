@@ -12,11 +12,11 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as PortalRouteImport } from './routes/portal'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as ProfileIndexRouteImport } from './routes/profile.index'
-import { Route as PortalIndexRouteImport } from './routes/portal.index'
-import { Route as ProfileEditRouteImport } from './routes/profile.edit'
-import { Route as PortalTodosRouteImport } from './routes/portal.todos'
-import { Route as PortalPostsRouteImport } from './routes/portal.posts'
+import { Route as ProfileIndexRouteImport } from './routes/profile/index'
+import { Route as PortalIndexRouteImport } from './routes/portal/index'
+import { Route as ProfileEditRouteImport } from './routes/profile/edit'
+import { Route as PortalTodosRouteImport } from './routes/portal/todos'
+import { Route as PortalPostsRouteImport } from './routes/portal/posts'
 
 const ProfileRoute = ProfileRouteImport.update({
   id: '/profile',
