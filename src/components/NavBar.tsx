@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { PiUser } from "react-icons/pi";
+import { PiUser, PiUserFill } from "react-icons/pi";
 
 const NavBar = () => {
   return (
@@ -15,7 +15,7 @@ const NavBar = () => {
         </li>
         <li className="nav-item ms-3">
           <Link to="/profile" className="nav-link">
-            <PiUser />
+            {({ isActive }) => (isActive ? <PiUserFill /> : <PiUser />)}
           </Link>
         </li>
       </ul>
