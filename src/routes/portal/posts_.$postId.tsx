@@ -1,4 +1,9 @@
-import { createFileRoute, Outlet, useNavigate } from "@tanstack/react-router";
+import {
+  createFileRoute,
+  Outlet,
+  useNavigate,
+  useLocation,
+} from "@tanstack/react-router";
 import axios from "axios";
 
 interface Post {
@@ -22,10 +27,14 @@ export const Route = createFileRoute("/portal/posts_/$postId")({
 function RouteComponent() {
   const post = Route.useLoaderData();
   const navigate = useNavigate();
+  const location = useLocation();
+  const isCommentsVisible = location.pathname.endsWith("/comments");
 
   const handleClick = () => {
     navigate({
-      to: "/portal/posts/$postId/comments",
+      to: isCommentsVisible
+        ? "/portal/posts/$postId"
+        : "/portal/posts/$postId/comments",
       params: { postId: post.id.toString() },
     });
   };
@@ -35,7 +44,7 @@ function RouteComponent() {
       <h1>{post.title}</h1>
       <p>{post.body}</p>
       <button onClick={handleClick} className="btn btn-primary">
-        Show comments
+        {isCommentsVisible ? "Hide comments" : "Show comments"}
       </button>
       <Outlet />
     </div>
