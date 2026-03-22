@@ -1,11 +1,21 @@
-import { createRouter } from "@tanstack/react-router";
+import { createRouter, createRouteMask } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
 import NotFound from "./components/NotFound";
 import ErrorFound from "./components/ErrorFound";
 import Pending from "./components/Pending";
 
+const postCommentsToPostMask = createRouteMask({
+  routeTree,
+  from: "/portal/posts/$postId/comments",
+  to: "/portal/posts/$postId",
+  params: ({ postId }) => {
+    return { postId };
+  },
+});
+
 export const router = createRouter({
   routeTree: routeTree,
+  routeMasks: [postCommentsToPostMask],
   defaultNotFoundComponent: NotFound,
   defaultErrorComponent: ErrorFound,
   defaultPendingComponent: Pending,
