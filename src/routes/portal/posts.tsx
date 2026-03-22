@@ -1,5 +1,6 @@
 import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
 import axios from "axios";
+import ErrorFound from "../../components/ErrorFound";
 
 interface Post {
   id: number;
@@ -17,6 +18,7 @@ export const Route = createFileRoute("/portal/posts")({
 
     return data;
   },
+  errorComponent: ErrorFound,
 });
 
 function RouteComponent() {
