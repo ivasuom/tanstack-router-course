@@ -1,18 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
-import apiClient from "../../services/apiClient";
-
-interface Todo {
-  id: number;
-  title: string;
-  completed: boolean;
-}
+import todoService from "../../services/todoService";
 
 export const Route = createFileRoute("/portal/todos")({
   component: RouteComponent,
   loader: async ({ abortController }) => {
-    const { data } = await apiClient.get<Todo[]>("/todos", {
-      signal: abortController.signal,
-    });
+    const { data } = await todoService.getAllTodos(abortController.signal);
 
     return data;
   },

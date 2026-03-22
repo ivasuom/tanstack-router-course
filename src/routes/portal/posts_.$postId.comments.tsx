@@ -1,20 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
-import apiClient from "../../services/apiClient";
-
-interface Comment {
-  id: number;
-  postId: number;
-  email: string;
-  body: string;
-}
+import commentService from "../../services/commentService";
 
 export const Route = createFileRoute("/portal/posts_/$postId/comments")({
   component: RouteComponent,
   loader: async ({ params, abortController }) => {
-    const { data } = await apiClient.get<Comment[]>("/comments", {
-      params: { postId: params.postId },
-      signal: abortController.signal,
-    });
+    const { data } = await commentService.getCommentsByPostId(
+      params.postId,
+      abortController.signal,
+    );
 
     return data;
   },
