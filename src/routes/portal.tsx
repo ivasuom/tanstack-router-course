@@ -1,4 +1,5 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router";
+import PortalMenu from "../components/PortalMenu";
 
 export const Route = createFileRoute("/portal")({
   component: RouteComponent,
@@ -7,8 +8,10 @@ export const Route = createFileRoute("/portal")({
 function RouteComponent() {
   return (
     <>
-      <div>Hello "/portal"!</div>
-      <Outlet />
+      <PortalMenu />
+      <div className="my-3">
+        <Outlet />
+      </div>
     </>
   );
 }
