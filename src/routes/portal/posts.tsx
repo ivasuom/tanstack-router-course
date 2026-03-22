@@ -1,7 +1,21 @@
 import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
+import axios from "axios";
+
+interface Post {
+  id: number;
+  title: string;
+  body: string;
+}
 
 export const Route = createFileRoute("/portal/posts")({
   component: RouteComponent,
+  loader: async () => {
+    const { data } = await axios.get<Post[]>(
+      "https://jsonplaceholder.typicode.com/posts",
+    );
+
+    console.log(data);
+  },
 });
 
 function RouteComponent() {
