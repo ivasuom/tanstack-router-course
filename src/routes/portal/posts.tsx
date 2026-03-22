@@ -1,7 +1,5 @@
 import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
 import axios from "axios";
-import ErrorFound from "../../components/ErrorFound";
-import Pending from "../../components/Pending";
 
 interface Post {
   id: number;
@@ -19,10 +17,6 @@ export const Route = createFileRoute("/portal/posts")({
 
     return data;
   },
-  errorComponent: ErrorFound,
-  pendingComponent: Pending,
-  pendingMs: 250,
-  pendingMinMs: 100,
 });
 
 function RouteComponent() {
