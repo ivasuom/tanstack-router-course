@@ -1,18 +1,10 @@
 import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
-import apiClient from "../../services/apiClient";
-
-interface Post {
-  id: number;
-  title: string;
-  body: string;
-}
+import postService from "../../services/postService";
 
 export const Route = createFileRoute("/portal/posts")({
   component: RouteComponent,
   loader: async ({ abortController }) => {
-    const { data } = await apiClient.get<Post[]>("/posts", {
-      signal: abortController.signal,
-    });
+    const { data } = await postService.getAllPosts(abortController.signal);
 
     return data;
   },

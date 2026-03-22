@@ -4,20 +4,15 @@ import {
   useLocation,
   Link,
 } from "@tanstack/react-router";
-import apiClient from "../../services/apiClient";
-
-interface Post {
-  id: number;
-  title: string;
-  body: string;
-}
+import postService from "../../services/postService";
 
 export const Route = createFileRoute("/portal/posts_/$postId")({
   component: RouteComponent,
   loader: async ({ params, abortController }) => {
-    const { data } = await apiClient.get<Post>("/posts/" + params.postId, {
-      signal: abortController.signal,
-    });
+    const { data } = await postService.getPostById(
+      params.postId,
+      abortController.signal,
+    );
 
     return data;
   },
