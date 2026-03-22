@@ -9,9 +9,10 @@ interface Post {
 
 export const Route = createFileRoute("/portal/posts")({
   component: RouteComponent,
-  loader: async () => {
+  loader: async ({ abortController }) => {
     const { data } = await axios.get<Post[]>(
       "https://jsonplaceholder.typicode.com/posts",
+      { signal: abortController.signal },
     );
 
     return data;
