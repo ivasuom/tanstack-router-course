@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import axios from "axios";
+import apiClient from "../../services/apiClient";
 
 interface Todo {
   id: number;
@@ -10,10 +10,9 @@ interface Todo {
 export const Route = createFileRoute("/portal/todos")({
   component: RouteComponent,
   loader: async ({ abortController }) => {
-    const { data } = await axios.get<Todo[]>(
-      "https://jsonplaceholder.typicode.com/todos",
-      { signal: abortController.signal },
-    );
+    const { data } = await apiClient.get<Todo[]>("/todos", {
+      signal: abortController.signal,
+    });
 
     return data;
   },

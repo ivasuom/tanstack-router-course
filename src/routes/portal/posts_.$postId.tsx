@@ -4,7 +4,7 @@ import {
   useLocation,
   Link,
 } from "@tanstack/react-router";
-import axios from "axios";
+import apiClient from "../../services/apiClient";
 
 interface Post {
   id: number;
@@ -15,10 +15,9 @@ interface Post {
 export const Route = createFileRoute("/portal/posts_/$postId")({
   component: RouteComponent,
   loader: async ({ params, abortController }) => {
-    const { data } = await axios.get<Post>(
-      "https://jsonplaceholder.typicode.com/posts/" + params.postId,
-      { signal: abortController.signal },
-    );
+    const { data } = await apiClient.get<Post>("/posts/" + params.postId, {
+      signal: abortController.signal,
+    });
 
     return data;
   },

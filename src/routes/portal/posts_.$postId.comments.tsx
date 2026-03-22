@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import axios from "axios";
+import apiClient from "../../services/apiClient";
 
 interface Comment {
   id: number;
@@ -11,13 +11,10 @@ interface Comment {
 export const Route = createFileRoute("/portal/posts_/$postId/comments")({
   component: RouteComponent,
   loader: async ({ params, abortController }) => {
-    const { data } = await axios.get<Comment[]>(
-      "https://jsonplaceholder.typicode.com/comments",
-      {
-        params: { postId: params.postId },
-        signal: abortController.signal,
-      },
-    );
+    const { data } = await apiClient.get<Comment[]>("/comments", {
+      params: { postId: params.postId },
+      signal: abortController.signal,
+    });
 
     return data;
   },
