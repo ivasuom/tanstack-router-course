@@ -17,7 +17,7 @@ import { Route as PortalIndexRouteImport } from './routes/portal/index'
 import { Route as ProfileEditRouteImport } from './routes/profile/edit'
 import { Route as PortalTodosRouteImport } from './routes/portal/todos'
 import { Route as PortalPostsRouteImport } from './routes/portal/posts'
-import { Route as PortalPostsPostIdRouteImport } from './routes/portal/posts.$postId'
+import { Route as PortalPostsPostIdRouteImport } from './routes/portal/posts_.$postId'
 
 const ProfileRoute = ProfileRouteImport.update({
   id: '/profile',
@@ -60,16 +60,16 @@ const PortalPostsRoute = PortalPostsRouteImport.update({
   getParentRoute: () => PortalRoute,
 } as any)
 const PortalPostsPostIdRoute = PortalPostsPostIdRouteImport.update({
-  id: '/$postId',
-  path: '/$postId',
-  getParentRoute: () => PortalPostsRoute,
+  id: '/posts_/$postId',
+  path: '/posts/$postId',
+  getParentRoute: () => PortalRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/portal': typeof PortalRouteWithChildren
   '/profile': typeof ProfileRouteWithChildren
-  '/portal/posts': typeof PortalPostsRouteWithChildren
+  '/portal/posts': typeof PortalPostsRoute
   '/portal/todos': typeof PortalTodosRoute
   '/profile/edit': typeof ProfileEditRoute
   '/portal/': typeof PortalIndexRoute
@@ -78,7 +78,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/portal/posts': typeof PortalPostsRouteWithChildren
+  '/portal/posts': typeof PortalPostsRoute
   '/portal/todos': typeof PortalTodosRoute
   '/profile/edit': typeof ProfileEditRoute
   '/portal': typeof PortalIndexRoute
@@ -90,12 +90,12 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/portal': typeof PortalRouteWithChildren
   '/profile': typeof ProfileRouteWithChildren
-  '/portal/posts': typeof PortalPostsRouteWithChildren
+  '/portal/posts': typeof PortalPostsRoute
   '/portal/todos': typeof PortalTodosRoute
   '/profile/edit': typeof ProfileEditRoute
   '/portal/': typeof PortalIndexRoute
   '/profile/': typeof ProfileIndexRoute
-  '/portal/posts/$postId': typeof PortalPostsPostIdRoute
+  '/portal/posts_/$postId': typeof PortalPostsPostIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -128,7 +128,7 @@ export interface FileRouteTypes {
     | '/profile/edit'
     | '/portal/'
     | '/profile/'
-    | '/portal/posts/$postId'
+    | '/portal/posts_/$postId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -195,38 +195,28 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PortalPostsRouteImport
       parentRoute: typeof PortalRoute
     }
-    '/portal/posts/$postId': {
-      id: '/portal/posts/$postId'
-      path: '/$postId'
+    '/portal/posts_/$postId': {
+      id: '/portal/posts_/$postId'
+      path: '/posts/$postId'
       fullPath: '/portal/posts/$postId'
       preLoaderRoute: typeof PortalPostsPostIdRouteImport
-      parentRoute: typeof PortalPostsRoute
+      parentRoute: typeof PortalRoute
     }
   }
 }
 
-interface PortalPostsRouteChildren {
+interface PortalRouteChildren {
+  PortalPostsRoute: typeof PortalPostsRoute
+  PortalTodosRoute: typeof PortalTodosRoute
+  PortalIndexRoute: typeof PortalIndexRoute
   PortalPostsPostIdRoute: typeof PortalPostsPostIdRoute
 }
 
-const PortalPostsRouteChildren: PortalPostsRouteChildren = {
-  PortalPostsPostIdRoute: PortalPostsPostIdRoute,
-}
-
-const PortalPostsRouteWithChildren = PortalPostsRoute._addFileChildren(
-  PortalPostsRouteChildren,
-)
-
-interface PortalRouteChildren {
-  PortalPostsRoute: typeof PortalPostsRouteWithChildren
-  PortalTodosRoute: typeof PortalTodosRoute
-  PortalIndexRoute: typeof PortalIndexRoute
-}
-
 const PortalRouteChildren: PortalRouteChildren = {
-  PortalPostsRoute: PortalPostsRouteWithChildren,
+  PortalPostsRoute: PortalPostsRoute,
   PortalTodosRoute: PortalTodosRoute,
   PortalIndexRoute: PortalIndexRoute,
+  PortalPostsPostIdRoute: PortalPostsPostIdRoute,
 }
 
 const PortalRouteWithChildren =
