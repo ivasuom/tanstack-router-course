@@ -18,6 +18,15 @@ const PortalMenu = () => {
           Todos
         </Link>
       </li>
+      <li className="nav-item">
+        <Link
+          to="/portal/products"
+          className="nav-link"
+          search={{ query: "keyboard", color: ["black", "gray"] }}
+        >
+          Products
+        </Link>
+      </li>
     </ul>
   );
 };
