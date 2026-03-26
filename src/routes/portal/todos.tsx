@@ -33,12 +33,17 @@ function RouteComponent() {
 
   const searchParams = Route.useSearch();
 
-  const navigate = useNavigate();
+  const navigate = useNavigate({ from: Route.fullPath });
 
   const updateCompleted = (completed?: boolean) => {
     navigate({
-      from: Route.fullPath,
       search: (prev) => ({ ...prev, completed: completed }),
+    });
+  };
+
+  const updatePage = (page: number) => {
+    navigate({
+      search: (prev) => ({ ...prev, page: page }),
     });
   };
 
@@ -68,8 +73,27 @@ function RouteComponent() {
           <option value="true">Completed</option>
           <option value="false">Todo</option>
         </select>
-        <button className="btn btn-outline-primary">Previous</button>
-        <button className="btn btn-outline-primary">Next</button>
+        <button
+          className="btn btn-outline-primary"
+          onClick={() => {
+            const previousPage = searchParams.page - 1;
+
+            updatePage(previousPage);
+          }}
+          disabled={searchParams.page <= 1}
+        >
+          Previous
+        </button>
+        <button
+          className="btn btn-outline-primary"
+          onClick={() => {
+            const nextPage = searchParams.page + 1;
+
+            updatePage(nextPage);
+          }}
+        >
+          Next
+        </button>
       </div>
       <ul className="list-group">
         {todos.map((todo) => (
