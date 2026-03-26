@@ -14,7 +14,11 @@ const PortalMenu = () => {
         </Link>
       </li>
       <li className="nav-item">
-        <Link to="/portal/todos" className="nav-link">
+        <Link
+          to="/portal/todos"
+          className="nav-link"
+          // search={{ completed: true, page: 1 }}
+        >
           Todos
         </Link>
       </li>
