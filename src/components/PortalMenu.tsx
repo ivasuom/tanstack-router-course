@@ -22,7 +22,7 @@ const PortalMenu = () => {
         <Link
           to="/portal/products"
           className="nav-link"
-          // search={{ query: "keyboard ", color: ["black", "gray"] }}
+          search={{ query: "leyboard", color: ["black", "gray"] }}
         >
           Products
         </Link>

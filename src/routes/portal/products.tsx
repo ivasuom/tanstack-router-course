@@ -2,8 +2,11 @@ import { createFileRoute } from "@tanstack/react-router";
 import z from "zod";
 
 const schema = z.object({
-  query: z.string().trim().default(""),
-  color: z.array(z.enum(["black", "gray", "white"])).default([]),
+  query: z.coerce.string().trim().default("").catch(""),
+  color: z
+    .array(z.enum(["black", "gray", "white"]))
+    .default([])
+    .default([]),
 });
 
 export const Route = createFileRoute("/portal/products")({
