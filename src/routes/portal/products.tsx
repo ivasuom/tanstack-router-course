@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, stripSearchParams } from "@tanstack/react-router";
 import z from "zod";
 
 const schema = z.object({
@@ -20,9 +20,18 @@ const schema = z.object({
     })),
 });
 
+type SchemaType = z.infer<typeof schema>;
+
+const defaultValues: SchemaType = {
+  query: "",
+  color: [],
+  priceRange: { minPrice: 1, maxPrice: 1000 },
+};
+
 export const Route = createFileRoute("/portal/products")({
   component: RouteComponent,
   validateSearch: schema,
+  search: { middlewares: [stripSearchParams(defaultValues)] },
 });
 
 function RouteComponent() {

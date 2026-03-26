@@ -22,12 +22,12 @@ const PortalMenu = () => {
         <Link
           to="/portal/products"
           className="nav-link"
-          search={{
-            query: "leyboard",
-            color: ["black", "gray"],
-            inStock: true,
-            priceRange: { minPrice: 300, maxPrice: 800 },
-          }}
+          // search={{
+          //   query: "leyboard",
+          //   color: ["black", "gray"],
+          //   inStock: true,
+          //   priceRange: { minPrice: 300, maxPrice: 800 },
+          // }}
         >
           Products
         </Link>
