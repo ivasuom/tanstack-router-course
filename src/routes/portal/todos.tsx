@@ -32,6 +32,15 @@ function RouteComponent() {
   return (
     <>
       <pre>{JSON.stringify(searchParams)}</pre>
+      <div className="mb-3 d-flex gap-2">
+        <select className="form-select">
+          <option value="">All</option>
+          <option value="">Completed</option>
+          <option value="">Todo</option>
+        </select>
+        <button className="btn btn-outline-primary">Previous</button>
+        <button className="btn btn-outline-primary">Next</button>
+      </div>
       <ul className="list-group">
         {todos.map((todo) => (
           <li
