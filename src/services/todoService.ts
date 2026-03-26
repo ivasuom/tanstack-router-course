@@ -7,10 +7,15 @@ interface Todo {
 }
 
 class TodoService {
-  getAllTodos(signal: AbortSignal, page: number, limit: number) {
+  getAllTodos(
+    signal: AbortSignal,
+    page: number,
+    limit: number,
+    completed?: boolean,
+  ) {
     return apiClient.get<Todo[]>("/todos", {
       signal,
-      params: { _page: page, _limit: limit },
+      params: { _page: page, _limit: limit, completed },
     });
   }
 }

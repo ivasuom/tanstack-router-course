@@ -22,21 +22,25 @@ export const Route = createFileRoute("/portal/todos")({
   component: RouteComponent,
   validateSearch: schema,
   search: { middlewares: [stripSearchParams(defaultValues)] },
-  loaderDeps: ({ search }) => ({ page: search.page }),
-  loader: async ({ abortController, deps }) => {
+  loaderDeps: ({ search: { page, completed } }) => ({
+    page,
+    completed,
+  }),
+  loader: async ({ abortController, deps: { page, completed } }) => {
     const limit = 20;
 
     const { data, headers } = await todoService.getAllTodos(
       abortController.signal,
-      deps.page,
+      page,
       limit,
+      completed,
     );
 
     const totalCount = Number(headers["x-total-count"]);
 
     const totalPages = Math.max(1, Math.ceil(totalCount / limit));
 
-    if (deps.page > totalPages) {
+    if (page > totalPages) {
       throw redirect({
         to: Route.fullPath,
         search: (prev) => ({ ...prev, page: totalPages }),
@@ -64,7 +68,6 @@ function RouteComponent() {
   };
   return (
     <>
-      <pre>{JSON.stringify(searchParams)}</pre>
       <div className="mb-3 d-flex gap-2">
         <select
           className="form-select"
