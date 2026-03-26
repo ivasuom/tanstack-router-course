@@ -1,4 +1,8 @@
-import { createFileRoute, stripSearchParams } from "@tanstack/react-router";
+import {
+  createFileRoute,
+  stripSearchParams,
+  useNavigate,
+} from "@tanstack/react-router";
 import todoService from "../../services/todoService";
 import z from "zod";
 
@@ -29,14 +33,40 @@ function RouteComponent() {
 
   const searchParams = Route.useSearch();
 
+  const navigate = useNavigate();
+
+  const updateCompleted = (completed?: boolean) => {
+    navigate({
+      from: Route.fullPath,
+      search: (prev) => ({ ...prev, completed: completed }),
+    });
+  };
+
   return (
     <>
       <pre>{JSON.stringify(searchParams)}</pre>
       <div className="mb-3 d-flex gap-2">
-        <select className="form-select">
+        <select
+          className="form-select"
+          value={
+            searchParams.completed === undefined
+              ? ""
+              : searchParams.completed.toString()
+          }
+          onChange={(e) => {
+            const completed =
+              e.target.value === ""
+                ? undefined
+                : e.target.value === "true"
+                  ? true
+                  : false;
+
+            updateCompleted(completed);
+          }}
+        >
           <option value="">All</option>
-          <option value="">Completed</option>
-          <option value="">Todo</option>
+          <option value="true">Completed</option>
+          <option value="false">Todo</option>
         </select>
         <button className="btn btn-outline-primary">Previous</button>
         <button className="btn btn-outline-primary">Next</button>
