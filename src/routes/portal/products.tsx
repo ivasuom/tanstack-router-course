@@ -7,6 +7,7 @@ const schema = z.object({
     .array(z.enum(["black", "gray", "white"]))
     .default([])
     .default([]),
+  inStock: z.boolean().optional(),
 });
 
 export const Route = createFileRoute("/portal/products")({
