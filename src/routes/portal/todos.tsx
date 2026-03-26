@@ -2,6 +2,7 @@ import {
   createFileRoute,
   stripSearchParams,
   useNavigate,
+  redirect,
 } from "@tanstack/react-router";
 import todoService from "../../services/todoService";
 import z from "zod";
@@ -34,6 +35,13 @@ export const Route = createFileRoute("/portal/todos")({
     const totalCount = Number(headers["x-total-count"]);
 
     const totalPages = Math.max(1, Math.ceil(totalCount / limit));
+
+    if (deps.page > totalPages) {
+      throw redirect({
+        to: Route.fullPath,
+        search: (prev) => ({ ...prev, page: totalPages }),
+      });
+    }
 
     return { todos: data, totalPages };
   },
