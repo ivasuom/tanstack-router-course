@@ -26,7 +26,7 @@ const PortalMenu = () => {
             query: "leyboard",
             color: ["black", "gray"],
             inStock: true,
-            priceRange: { minPrice: 0, maxPrice: 500 },
+            priceRange: { minPrice: 300, maxPrice: 800 },
           }}
         >
           Products
