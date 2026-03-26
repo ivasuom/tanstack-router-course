@@ -25,18 +25,22 @@ export const Route = createFileRoute("/portal/todos")({
   loader: async ({ abortController, deps }) => {
     const limit = 20;
 
-    const { data } = await todoService.getAllTodos(
+    const { data, headers } = await todoService.getAllTodos(
       abortController.signal,
       deps.page,
       limit,
     );
 
-    return data;
+    const totalCount = Number(headers["x-total-count"]);
+
+    const totalPages = Math.max(1, Math.ceil(totalCount / limit));
+
+    return { todos: data, totalPages };
   },
 });
 
 function RouteComponent() {
-  const todos = Route.useLoaderData();
+  const { todos, totalPages } = Route.useLoaderData();
 
   const searchParams = Route.useSearch();
 
@@ -94,6 +98,7 @@ function RouteComponent() {
 
             updateSearch("page", nextPage);
           }}
+          disabled={searchParams.page >= totalPages}
         >
           Next
         </button>
