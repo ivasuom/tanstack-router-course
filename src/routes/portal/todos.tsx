@@ -21,8 +21,15 @@ export const Route = createFileRoute("/portal/todos")({
   component: RouteComponent,
   validateSearch: schema,
   search: { middlewares: [stripSearchParams(defaultValues)] },
-  loader: async ({ abortController }) => {
-    const { data } = await todoService.getAllTodos(abortController.signal);
+  loaderDeps: ({ search }) => ({ page: search.page }),
+  loader: async ({ abortController, deps }) => {
+    const limit = 20;
+
+    const { data } = await todoService.getAllTodos(
+      abortController.signal,
+      deps.page,
+      limit,
+    );
 
     return data;
   },

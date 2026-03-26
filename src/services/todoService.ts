@@ -7,9 +7,10 @@ interface Todo {
 }
 
 class TodoService {
-  getAllTodos(signal: AbortSignal) {
+  getAllTodos(signal: AbortSignal, page: number, limit: number) {
     return apiClient.get<Todo[]>("/todos", {
       signal,
+      params: { _page: page, _limit: limit },
     });
   }
 }
