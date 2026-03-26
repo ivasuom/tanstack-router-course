@@ -35,18 +35,14 @@ function RouteComponent() {
 
   const navigate = useNavigate({ from: Route.fullPath });
 
-  const updateCompleted = (completed?: boolean) => {
+  const updateSearch = <K extends keyof SchemaType>(
+    key: K,
+    value: SchemaType[K],
+  ) => {
     navigate({
-      search: (prev) => ({ ...prev, completed: completed }),
+      search: (prev) => ({ ...prev, [key]: value }),
     });
   };
-
-  const updatePage = (page: number) => {
-    navigate({
-      search: (prev) => ({ ...prev, page: page }),
-    });
-  };
-
   return (
     <>
       <pre>{JSON.stringify(searchParams)}</pre>
@@ -66,7 +62,7 @@ function RouteComponent() {
                   ? true
                   : false;
 
-            updateCompleted(completed);
+            updateSearch("completed", completed);
           }}
         >
           <option value="">All</option>
@@ -78,7 +74,7 @@ function RouteComponent() {
           onClick={() => {
             const previousPage = searchParams.page - 1;
 
-            updatePage(previousPage);
+            updateSearch("page", previousPage);
           }}
           disabled={searchParams.page <= 1}
         >
@@ -89,7 +85,7 @@ function RouteComponent() {
           onClick={() => {
             const nextPage = searchParams.page + 1;
 
-            updatePage(nextPage);
+            updateSearch("page", nextPage);
           }}
         >
           Next
