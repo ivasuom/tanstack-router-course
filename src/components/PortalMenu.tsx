@@ -25,7 +25,8 @@ const PortalMenu = () => {
           search={{
             query: "leyboard",
             color: ["black", "gray"],
-            // inStock: true,
+            inStock: true,
+            priceRange: { minPrice: 0, maxPrice: 500 },
           }}
         >
           Products

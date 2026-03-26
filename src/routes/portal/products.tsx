@@ -8,6 +8,12 @@ const schema = z.object({
     .default([])
     .default([]),
   inStock: z.boolean().optional(),
+  priceRange: z
+    .object({
+      minPrice: z.number().min(1).catch(1),
+      maxPrice: z.number().min(1).max(1000).catch(1000),
+    })
+    .default({ minPrice: 1, maxPrice: 1000 }),
 });
 
 export const Route = createFileRoute("/portal/products")({
