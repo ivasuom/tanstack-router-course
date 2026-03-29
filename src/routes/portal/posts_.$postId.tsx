@@ -16,8 +16,6 @@ export const Route = createFileRoute("/portal/posts_/$postId")({
 
     return data;
   },
-  staleTime: 1000 * 60 * 20,
-  gcTime: 1000 * 60 * 40,
 });
 
 function RouteComponent() {
