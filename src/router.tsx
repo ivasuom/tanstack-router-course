@@ -23,6 +23,8 @@ export const router = createRouter({
   defaultPendingMinMs: 100,
   defaultStaleTime: 1000 * 60 * 5,
   defaultGcTime: 1000 * 60 * 20,
+  defaultPreload: "intent",
+  defaultPreloadStaleTime: 1000 * 60 * 15,
 });
 
 type RouterType = typeof router;
