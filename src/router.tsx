@@ -21,7 +21,7 @@ export const router = createRouter({
   defaultPendingComponent: Pending,
   defaultPendingMs: 250,
   defaultPendingMinMs: 100,
-  defaultStaleTime: Infinity,
+  defaultStaleTime: 1000 * 60 * 5,
   defaultGcTime: 1000 * 60 * 20,
 });
 
