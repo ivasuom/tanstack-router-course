@@ -38,6 +38,7 @@ function RouteComponent() {
         params={{ postId: post.id.toString() }}
         activeProps={{ className: "" }}
         className="btn btn-primary"
+        preload="render"
       >
         {isCommentsVisible ? "Hide comments" : "Show comments"}
       </Link>

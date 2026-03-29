@@ -21,6 +21,7 @@ function RouteComponent() {
             <Link
               to="/portal/posts/$postId"
               params={{ postId: post.id.toString() }}
+              preload="viewport"
             >
               {post.title}
             </Link>
