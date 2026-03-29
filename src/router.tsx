@@ -21,6 +21,7 @@ export const router = createRouter({
   defaultPendingComponent: Pending,
   defaultPendingMs: 250,
   defaultPendingMinMs: 100,
+  defaultStaleTime: 1000 * 60 * 5,
 });
 
 type RouterType = typeof router;
