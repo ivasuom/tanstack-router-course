@@ -15,6 +15,7 @@ const postCommentsToPostMask = createRouteMask({
 
 export const router = createRouter({
   routeTree: routeTree,
+  context: { isAuthenticated: undefined! },
   routeMasks: [postCommentsToPostMask],
   defaultNotFoundComponent: NotFound,
   defaultErrorComponent: ErrorFound,

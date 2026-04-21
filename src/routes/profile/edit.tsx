@@ -1,8 +1,13 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 import { useState } from "react";
 import { useAuthStore } from "../../stores/authStore";
 
 export const Route = createFileRoute("/profile/edit")({
+  beforeLoad: ({ context }) => {
+    if (!context.isAuthenticated()) {
+      throw redirect({ to: "/profile" });
+    }
+  },
   component: RouteComponent,
 });
 
