@@ -4,7 +4,7 @@ import {
   useNavigate,
   redirect,
 } from "@tanstack/react-router";
-import todoService from "../../services/todoService";
+import todoService from "../../../services/todoService";
 import z from "zod";
 
 const schema = z.object({
@@ -18,7 +18,7 @@ const defaultValues: SchemaType = {
   page: 1,
 };
 
-export const Route = createFileRoute("/portal/todos")({
+export const Route = createFileRoute("/portal/_auth/todos")({
   component: RouteComponent,
   validateSearch: schema,
   search: { middlewares: [stripSearchParams(defaultValues)] },

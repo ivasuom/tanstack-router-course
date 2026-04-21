@@ -28,7 +28,7 @@ const defaultValues: SchemaType = {
   priceRange: { minPrice: 1, maxPrice: 1000 },
 };
 
-export const Route = createFileRoute("/portal/products")({
+export const Route = createFileRoute("/portal/_auth/products")({
   component: RouteComponent,
   validateSearch: schema,
   search: { middlewares: [stripSearchParams(defaultValues)] },

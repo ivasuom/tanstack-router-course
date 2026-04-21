@@ -15,10 +15,11 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProfileIndexRouteImport } from './routes/profile/index'
 import { Route as PortalIndexRouteImport } from './routes/portal/index'
 import { Route as ProfileEditRouteImport } from './routes/profile/edit'
-import { Route as PortalTodosRouteImport } from './routes/portal/todos'
-import { Route as PortalProductsRouteImport } from './routes/portal/products'
 import { Route as PortalPostsRouteImport } from './routes/portal/posts'
+import { Route as PortalAuthRouteImport } from './routes/portal/_auth'
 import { Route as PortalPostsPostIdRouteImport } from './routes/portal/posts_.$postId'
+import { Route as PortalAuthTodosRouteImport } from './routes/portal/_auth/todos'
+import { Route as PortalAuthProductsRouteImport } from './routes/portal/_auth/products'
 import { Route as PortalPostsPostIdCommentsRouteImport } from './routes/portal/posts_.$postId.comments'
 
 const ProfileRoute = ProfileRouteImport.update({
@@ -51,25 +52,29 @@ const ProfileEditRoute = ProfileEditRouteImport.update({
   path: '/edit',
   getParentRoute: () => ProfileRoute,
 } as any)
-const PortalTodosRoute = PortalTodosRouteImport.update({
-  id: '/todos',
-  path: '/todos',
-  getParentRoute: () => PortalRoute,
-} as any)
-const PortalProductsRoute = PortalProductsRouteImport.update({
-  id: '/products',
-  path: '/products',
-  getParentRoute: () => PortalRoute,
-} as any)
 const PortalPostsRoute = PortalPostsRouteImport.update({
   id: '/posts',
   path: '/posts',
+  getParentRoute: () => PortalRoute,
+} as any)
+const PortalAuthRoute = PortalAuthRouteImport.update({
+  id: '/_auth',
   getParentRoute: () => PortalRoute,
 } as any)
 const PortalPostsPostIdRoute = PortalPostsPostIdRouteImport.update({
   id: '/posts_/$postId',
   path: '/posts/$postId',
   getParentRoute: () => PortalRoute,
+} as any)
+const PortalAuthTodosRoute = PortalAuthTodosRouteImport.update({
+  id: '/todos',
+  path: '/todos',
+  getParentRoute: () => PortalAuthRoute,
+} as any)
+const PortalAuthProductsRoute = PortalAuthProductsRouteImport.update({
+  id: '/products',
+  path: '/products',
+  getParentRoute: () => PortalAuthRoute,
 } as any)
 const PortalPostsPostIdCommentsRoute =
   PortalPostsPostIdCommentsRouteImport.update({
@@ -80,25 +85,25 @@ const PortalPostsPostIdCommentsRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/portal': typeof PortalRouteWithChildren
+  '/portal': typeof PortalAuthRouteWithChildren
   '/profile': typeof ProfileRouteWithChildren
   '/portal/posts': typeof PortalPostsRoute
-  '/portal/products': typeof PortalProductsRoute
-  '/portal/todos': typeof PortalTodosRoute
   '/profile/edit': typeof ProfileEditRoute
   '/portal/': typeof PortalIndexRoute
   '/profile/': typeof ProfileIndexRoute
+  '/portal/products': typeof PortalAuthProductsRoute
+  '/portal/todos': typeof PortalAuthTodosRoute
   '/portal/posts/$postId': typeof PortalPostsPostIdRouteWithChildren
   '/portal/posts/$postId/comments': typeof PortalPostsPostIdCommentsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/portal/posts': typeof PortalPostsRoute
-  '/portal/products': typeof PortalProductsRoute
-  '/portal/todos': typeof PortalTodosRoute
-  '/profile/edit': typeof ProfileEditRoute
   '/portal': typeof PortalIndexRoute
+  '/portal/posts': typeof PortalPostsRoute
+  '/profile/edit': typeof ProfileEditRoute
   '/profile': typeof ProfileIndexRoute
+  '/portal/products': typeof PortalAuthProductsRoute
+  '/portal/todos': typeof PortalAuthTodosRoute
   '/portal/posts/$postId': typeof PortalPostsPostIdRouteWithChildren
   '/portal/posts/$postId/comments': typeof PortalPostsPostIdCommentsRoute
 }
@@ -107,12 +112,13 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/portal': typeof PortalRouteWithChildren
   '/profile': typeof ProfileRouteWithChildren
+  '/portal/_auth': typeof PortalAuthRouteWithChildren
   '/portal/posts': typeof PortalPostsRoute
-  '/portal/products': typeof PortalProductsRoute
-  '/portal/todos': typeof PortalTodosRoute
   '/profile/edit': typeof ProfileEditRoute
   '/portal/': typeof PortalIndexRoute
   '/profile/': typeof ProfileIndexRoute
+  '/portal/_auth/products': typeof PortalAuthProductsRoute
+  '/portal/_auth/todos': typeof PortalAuthTodosRoute
   '/portal/posts_/$postId': typeof PortalPostsPostIdRouteWithChildren
   '/portal/posts_/$postId/comments': typeof PortalPostsPostIdCommentsRoute
 }
@@ -123,22 +129,22 @@ export interface FileRouteTypes {
     | '/portal'
     | '/profile'
     | '/portal/posts'
-    | '/portal/products'
-    | '/portal/todos'
     | '/profile/edit'
     | '/portal/'
     | '/profile/'
+    | '/portal/products'
+    | '/portal/todos'
     | '/portal/posts/$postId'
     | '/portal/posts/$postId/comments'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/portal'
     | '/portal/posts'
+    | '/profile/edit'
+    | '/profile'
     | '/portal/products'
     | '/portal/todos'
-    | '/profile/edit'
-    | '/portal'
-    | '/profile'
     | '/portal/posts/$postId'
     | '/portal/posts/$postId/comments'
   id:
@@ -146,12 +152,13 @@ export interface FileRouteTypes {
     | '/'
     | '/portal'
     | '/profile'
+    | '/portal/_auth'
     | '/portal/posts'
-    | '/portal/products'
-    | '/portal/todos'
     | '/profile/edit'
     | '/portal/'
     | '/profile/'
+    | '/portal/_auth/products'
+    | '/portal/_auth/todos'
     | '/portal/posts_/$postId'
     | '/portal/posts_/$postId/comments'
   fileRoutesById: FileRoutesById
@@ -206,25 +213,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProfileEditRouteImport
       parentRoute: typeof ProfileRoute
     }
-    '/portal/todos': {
-      id: '/portal/todos'
-      path: '/todos'
-      fullPath: '/portal/todos'
-      preLoaderRoute: typeof PortalTodosRouteImport
-      parentRoute: typeof PortalRoute
-    }
-    '/portal/products': {
-      id: '/portal/products'
-      path: '/products'
-      fullPath: '/portal/products'
-      preLoaderRoute: typeof PortalProductsRouteImport
-      parentRoute: typeof PortalRoute
-    }
     '/portal/posts': {
       id: '/portal/posts'
       path: '/posts'
       fullPath: '/portal/posts'
       preLoaderRoute: typeof PortalPostsRouteImport
+      parentRoute: typeof PortalRoute
+    }
+    '/portal/_auth': {
+      id: '/portal/_auth'
+      path: ''
+      fullPath: '/portal'
+      preLoaderRoute: typeof PortalAuthRouteImport
       parentRoute: typeof PortalRoute
     }
     '/portal/posts_/$postId': {
@@ -233,6 +233,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/portal/posts/$postId'
       preLoaderRoute: typeof PortalPostsPostIdRouteImport
       parentRoute: typeof PortalRoute
+    }
+    '/portal/_auth/todos': {
+      id: '/portal/_auth/todos'
+      path: '/todos'
+      fullPath: '/portal/todos'
+      preLoaderRoute: typeof PortalAuthTodosRouteImport
+      parentRoute: typeof PortalAuthRoute
+    }
+    '/portal/_auth/products': {
+      id: '/portal/_auth/products'
+      path: '/products'
+      fullPath: '/portal/products'
+      preLoaderRoute: typeof PortalAuthProductsRouteImport
+      parentRoute: typeof PortalAuthRoute
     }
     '/portal/posts_/$postId/comments': {
       id: '/portal/posts_/$postId/comments'
@@ -243,6 +257,20 @@ declare module '@tanstack/react-router' {
     }
   }
 }
+
+interface PortalAuthRouteChildren {
+  PortalAuthProductsRoute: typeof PortalAuthProductsRoute
+  PortalAuthTodosRoute: typeof PortalAuthTodosRoute
+}
+
+const PortalAuthRouteChildren: PortalAuthRouteChildren = {
+  PortalAuthProductsRoute: PortalAuthProductsRoute,
+  PortalAuthTodosRoute: PortalAuthTodosRoute,
+}
+
+const PortalAuthRouteWithChildren = PortalAuthRoute._addFileChildren(
+  PortalAuthRouteChildren,
+)
 
 interface PortalPostsPostIdRouteChildren {
   PortalPostsPostIdCommentsRoute: typeof PortalPostsPostIdCommentsRoute
@@ -256,17 +284,15 @@ const PortalPostsPostIdRouteWithChildren =
   PortalPostsPostIdRoute._addFileChildren(PortalPostsPostIdRouteChildren)
 
 interface PortalRouteChildren {
+  PortalAuthRoute: typeof PortalAuthRouteWithChildren
   PortalPostsRoute: typeof PortalPostsRoute
-  PortalProductsRoute: typeof PortalProductsRoute
-  PortalTodosRoute: typeof PortalTodosRoute
   PortalIndexRoute: typeof PortalIndexRoute
   PortalPostsPostIdRoute: typeof PortalPostsPostIdRouteWithChildren
 }
 
 const PortalRouteChildren: PortalRouteChildren = {
+  PortalAuthRoute: PortalAuthRouteWithChildren,
   PortalPostsRoute: PortalPostsRoute,
-  PortalProductsRoute: PortalProductsRoute,
-  PortalTodosRoute: PortalTodosRoute,
   PortalIndexRoute: PortalIndexRoute,
   PortalPostsPostIdRoute: PortalPostsPostIdRouteWithChildren,
 }
