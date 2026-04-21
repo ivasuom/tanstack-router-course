@@ -1,7 +1,14 @@
 import { useState } from "react";
 import { useAuthStore } from "../stores/authStore";
+import { useNavigate } from "@tanstack/react-router";
 
-const Auth = () => {
+interface Props {
+  redirect?: string;
+}
+
+const Auth = ({ redirect }: Props) => {
+  const navigate = useNavigate();
+
   const {
     username: currentUser,
     logIn,
@@ -37,6 +44,9 @@ const Auth = () => {
             onClick={() => {
               if (username.trim()) {
                 logIn(username.trim());
+                if (redirect) {
+                  navigate({ to: redirect });
+                }
               }
 
               setUsername("");

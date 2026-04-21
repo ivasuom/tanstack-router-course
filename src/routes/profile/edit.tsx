@@ -3,9 +3,12 @@ import { useState } from "react";
 import { useAuthStore } from "../../stores/authStore";
 
 export const Route = createFileRoute("/profile/edit")({
-  beforeLoad: ({ context }) => {
+  beforeLoad: ({ context, location }) => {
     if (!context.isAuthenticated()) {
-      throw redirect({ to: "/profile" });
+      throw redirect({
+        to: "/profile",
+        search: { redirect: location.pathname },
+      });
     }
   },
   component: RouteComponent,
