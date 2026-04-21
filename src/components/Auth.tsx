@@ -1,29 +1,51 @@
 import { useState } from "react";
+import { useAuthStore } from "../stores/authStore";
 
 const Auth = () => {
+  const {
+    username: currentUser,
+    logIn,
+    logOut,
+    isAuthenticated,
+  } = useAuthStore();
+
   const [username, setUsername] = useState("");
 
   return (
     <>
-      <h1 className="mb-4">Log in</h1>
-      <div>
-        <input
-          type="text"
-          className="form-control mb-2"
-          placeholder="Username:"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
+      <h1 className="mb-4">{isAuthenticated() ? currentUser : "Log in"}</h1>
+      {isAuthenticated() ? (
         <button
           className="btn btn-primary"
           onClick={() => {
-            console.log("Log in " + username);
-            setUsername("");
+            logOut();
           }}
         >
-          Log in
+          Log out
         </button>
-      </div>
+      ) : (
+        <div>
+          <input
+            type="text"
+            className="form-control mb-2"
+            placeholder="Username:"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <button
+            className="btn btn-primary"
+            onClick={() => {
+              if (username.trim()) {
+                logIn(username.trim());
+              }
+
+              setUsername("");
+            }}
+          >
+            Log in
+          </button>
+        </div>
+      )}
     </>
   );
 };
